@@ -1,11 +1,18 @@
-name: HEllo World CI
+name: Use Secrets and Vairiables
 
 on: push
 
 jobs:
-  build:
+  show-variables:
    runs-on: ubuntu-latest
    env:
-    NODE_ENV: production
+    MY_ENV_VAR: production
    steps:
-    - run: echo "Environment is $NODE_ENV"
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Print ENV Variables 
+      uses: echo "Env is $MY_ENV_VAR"
+
+    - name: Print Secrets
+      uses: echo "The secret is"
