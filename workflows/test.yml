@@ -1,0 +1,14 @@
+name: HEllo World CI
+
+on: push
+
+jobs:
+  hello-job:
+   runs-on: ubuntu-latest
+
+   steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: Say HEllo
+      run: echo "Hello World"
