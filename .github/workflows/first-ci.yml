@@ -3,12 +3,9 @@ name: HEllo World CI
 on: push
 
 jobs:
-  hello-job:
+  build:
    runs-on: ubuntu-latest
-
+   env:
+    NODE_ENV: production
    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-    
-    - name: Say HEllo
-      run: echo "Hello World"
+    - run: echo "Environment is $NODE_ENV"
