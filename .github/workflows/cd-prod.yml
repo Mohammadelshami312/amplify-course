@@ -15,15 +15,21 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
-        name: next-build
-        path: artifacts
+        name: next-deployment
+        path: deployment
 
-    - name: Move artifacts to correct location
+    - name: Verify downloaded files
       run: |
-        mv artifacts/.next . || echo "No .next directory found"
-        mv artifacts/public . || echo "No public directory found"
-        mv artifacts/package*.json . || echo "No package files found"
-        ls -la
+        ls -la deployment/
+        [ -d "deployment/.next" ] || exit 1
+        [ -d "deployment/public" ] || exit 1
+        [ -f "deployment/package.json" ] || exit 1
+
+    - name: Restore project structure
+      run: |
+        mv deployment/.next ./
+        mv deployment/public ./
+        mv deployment/package*.json ./
 
     - name: Set up Node.js
       uses: actions/setup-node@v4
