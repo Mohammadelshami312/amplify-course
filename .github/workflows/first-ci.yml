@@ -1,18 +1,18 @@
-name: Use Secrets and Vairiables
+name: Use Secrets and Variables
 
 on: push
 
 jobs:
   show-variables:
-   runs-on: ubuntu-latest
-   env:
-    MY_ENV_VAR: production
-   steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+    runs-on: ubuntu-latest
+    env:
+      MY_ENV_VAR: production
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Print ENV Variables 
-      uses: echo "Env is $MY_ENV_VAR"
+      - name: Print Env Variable
+        run: echo "Env is $MY_ENV_VAR"
 
-    - name: Print Secrets
-      uses: echo "The secret is"
+      - name: Print Secret
+        run: echo "The secret is ${{ secrets.MY_SECRET }}"
