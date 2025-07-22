@@ -1,18 +1,27 @@
-name: Use Secrets and Variables
+name: React ci
 
 on: push
 
 jobs:
-  show-variables:
-    runs-on: ubuntu-latest
-    env:
-      MY_ENV_VAR: production
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+  build:
+   runs-on: ubuntu-latest
 
-      - name: Print Env Variable
-        run: echo "Env is $MY_ENV_VAR"
+   steps: 
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Nodejs
+      uses: actions/setup-node@v4 
+      with: 
+        node-version: 20
 
-      - name: Print Secret
-        run: echo "The secret is ${{ secrets.MY_SECRET }}"
+    - name: Install Dependencies
+      run: npm ci
+    
+    - name: Run Tests
+      run: npm test 
+    
+    - name: Build project
+      run: npm run build
+    
+
