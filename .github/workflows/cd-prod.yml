@@ -13,32 +13,17 @@ jobs:
 
     steps:
     - name: Download artifacts
-      uses: actions/github-script@v6
+      uses: actions/download-artifact@v4
       with:
-        script: |
-          const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            run_id: ${{ github.event.workflow_run.id }},
-          });
-          const match = artifacts.data.artifacts.find((art) => art.name === 'next-build');
-          if (!match) {
-            core.setFailed('Artifact not found');
-          }
-          await github.rest.actions.downloadArtifact({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            artifact_id: match.id,
-            archive_format: 'zip',
-          });
-          fs.mkdirSync('${{ github.workspace }}/artifacts');
-          await exec.exec('unzip', ['-qq', 'artifact.zip', '-d', '${{ github.workspace }}/artifacts']);
+        name: next-build
+        path: artifacts
 
     - name: Move artifacts to correct location
       run: |
-        mv artifacts/.next ./
-        mv artifacts/public ./
-        mv artifacts/package*.json ./
+        mv artifacts/.next . || echo "No .next directory found"
+        mv artifacts/public . || echo "No public directory found"
+        mv artifacts/package*.json . || echo "No package files found"
+        ls -la
 
     - name: Set up Node.js
       uses: actions/setup-node@v4
