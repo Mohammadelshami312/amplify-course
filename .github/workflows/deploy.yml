@@ -5,7 +5,7 @@ on:
     branches:
       - staging
       - testing
-      - production
+      - main
 
 jobs:
   deploy:
@@ -38,6 +38,6 @@ jobs:
             aws s3 sync ./out s3://your-app-staging --delete
           elif [[ "$GITHUB_REF" == "refs/heads/testing" ]]; then
             aws s3 sync ./out s3://your-app-testing --delete
-          elif [[ "$GITHUB_REF" == "refs/heads/production" ]]; then
+          elif [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
             aws s3 sync ./out s3://your-app-production --delete
           fi
